@@ -1,0 +1,49 @@
+{
+    "- [:0,0,0] Transmittal Root - LMBX_cat.stf\n": {
+        "  name->locale->country[0..2]": " usa\n", 
+        "  interim_SRM_version": " \n", 
+        "  interim_DRM_version": " \n", 
+        "  interim_EDCS_version": " \n", 
+        "  - [:0,0,1] Model Library\n": {
+            "  - [:0,0,2] Environment Root\n": {
+                "    srf_context_info->linear_scale": " ERROR - ILLEGAL EDCS_Unit_Scale_Code VALUE (11)\n", 
+                "    srf_context_info->srf_parameters_info->value.srf_template->orm_code": " SRM_ORMCOD_EARTH_INERTIAL_J2000r0\n", 
+                "    srf_context_info->srf_parameters_info->value.srf_template->template_code": " SRM_SRFTCOD_EQUATORIAL_INERTIAL\n", 
+                "    srf_context_info->linear_unit": " ERROR - ILLEGAL EDCS_Unit_Code VALUE (172)\n", 
+                "    srf_context_info->use_dss_code": " SE_FALSE\n", 
+                "    srf_context_info->srf_parameters_info->srf_params_info_code": " SRM_SRFPARAMINFCOD_TEMPLATE\n", 
+                "    srf_context_info->angular_unit": " ERROR - ILLEGAL EDCS_Unit_Code VALUE (40)\n", 
+                "    srf_context_info->srf_parameters_info->rt_code": " SRM_RTCOD_UNSPECIFIED\n", 
+                "    srf_context_info->srf_parameters_info->value.srf_template->parameters.ei_srf_parameters->unused": " 2051033536\n", 
+                "    srf_context_info->dss_code": " SRM_DSSCOD_UNSPECIFIED\n"
+            }, 
+            "    - [:0,0,3] Feature Model Instance\n": {
+                "      - [:0,0,6] Classification Data\n": {
+                    "      | tag": " ERROR - ILLEGAL EDCS_Classification_Code VALUE (1159)\n"
+                }, 
+                "      - [:0,0,7] Property Value\n": {
+                    "        meaning->code_type": " SE_PROPCODTYP_ATTRIBUTE\n", 
+                    "        value->attribute_value_type": " ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (5)\n", 
+                    "        apply_property_inheritance": " SE_FALSE\n", 
+                    "        meaning->code.attribute": " ERROR - ILLEGAL EDCS_Attribute_Code VALUE (228)\n"
+                }, 
+                "      - [:0,0,4] World Transformation\n": {
+                    "        - [:0,0,5] EI 3D Location\n": {
+                        "          coordinate->right_ascension": "    278.01870\n", 
+                        "          coordinate->radius": "      0.00000\n", 
+                        "          coordinate->declination": "    -29.38670\n"
+                    }
+                }
+            }
+        }, 
+        "  minor_EDCS_version": " 4\n", 
+        "  major_EDCS_version": " 4\n", 
+        "  minor_DRM_version": " 1\n", 
+        "  minor_SRM_version": " 1\n", 
+        "  name->length": " 12\n", 
+        "  major_SRM_version": " 4\n", 
+        "  major_DRM_version": " 4\n", 
+        "  name->locale->language[0..1]": " en\n", 
+        "  name->characters": " LMBX_cat.stf\n"
+    }
+}
