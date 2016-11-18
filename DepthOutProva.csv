@@ -13,7 +13,7 @@
   minor_SRM_version: 1
   interim_SRM_version: 
   - [:0,0,1] Model Library
-  - [:0,0,2] Environment Root
+  - [:0,0,2] Environment Root 
     srf_context_info->angular_unit: ERROR - ILLEGAL EDCS_Unit_Code VALUE (40)
     srf_context_info->linear_unit: ERROR - ILLEGAL EDCS_Unit_Code VALUE (172)
     srf_context_info->linear_scale: ERROR - ILLEGAL EDCS_Unit_Scale_Code VALUE (11)
@@ -30,7 +30,7 @@
           coordinate->right_ascension:    278.01870
           coordinate->declination:    -29.38670
           coordinate->radius:      0.00000
-      - [:0,0,6] Classification Data
+      - [:0,0,6] Classification Data  (RETURN THE DICTIONARY AND THE LAST LINE -> START A NEW SUB-DICTIONARY)
       | tag: ERROR - ILLEGAL EDCS_Classification_Code VALUE (1159)
       - [:0,0,7] Property Value
         meaning->code_type: SE_PROPCODTYP_ATTRIBUTE
