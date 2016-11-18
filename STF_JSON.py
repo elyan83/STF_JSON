@@ -9,6 +9,8 @@ from subprocess import call
 from itertools import groupby
 import json
 
+import re
+
 
 ### UNCOMMENT THIS FOR GENERATE THE CSV output file from the Transmittal ####
 #call('depth -v LMBX_cat.stf > DepthOut.csv', shell=True)
@@ -68,14 +70,24 @@ def parseFile():
     #x=[]
     #y=[]
     
-    for k in range(len(content)) :
-        for j in content[k]:
+    #for k in range(len(content)) :
+    for k, line in enumerate(content):
+       
+       p = re.compile('^\s*-')
+           
+       if p.match(line)!=None:
+        
+        
+        #for j in content[k]:
+        #if line.startswith("- [:"):
+           print(line)
+            
+            
+'''
             if j == "-": # and currentline == -10: #and treelevel <= 2 :
               
                 line  = content[k]
                 Indexline = line.index("-")
-                
-               
                 
                 if line[Indexline+2] == "[":
                     #print(line[Indexline+2] )
@@ -95,7 +107,7 @@ def parseFile():
                 print(currentline,x+" : "+ y+"\n")
     
         currentline = -10
-
+'''
 
 
 '''
