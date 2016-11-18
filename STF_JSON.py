@@ -69,13 +69,8 @@ def parseFile():
     #y=[]
     
     for k in range(len(content)) :
-        
-       
- 
         for j in content[k]:
-            
-            
-            if j == "-" and currentline == -10: #and treelevel <= 2 :
+            if j == "-": # and currentline == -10: #and treelevel <= 2 :
               
                 line  = content[k]
                 Indexline = line.index("-")
@@ -89,20 +84,17 @@ def parseFile():
                     # Will define the level of the tree
                     treelevel = Indexline
                     
-                    print(Indexline,content[k])
+                    print('*',Indexline,content[k])
                     currentline = -10
             
                 
             if j != "-" and currentline == -10 :#and treelevel <= 2:
-                
                 currentline = k+1
                 x,y = CleanString(content[k])
-                #dictionary = dictionary + x +":"+y
-                #print(currentline,x+" : "+ y+"\n")
-                    
-            
+                # dictionary = dictionary + x +":"+y
+                print(currentline,x+" : "+ y+"\n")
     
-                currentline = -10
+        currentline = -10
 
 
 
