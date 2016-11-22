@@ -113,6 +113,29 @@ def FindLevel(tree,index):
     if dim == 1 :
         return('None',0)
 
+def jparseFile(f):
+    currentlevel=-1
+    dict={}
+    p = re.compile('^\s*-')
+    while (line=f.read()):
+        if p.match(line)!= None:
+            minuspos=line.index('-')
+            if (currentlevel==-1):
+                currentlevel=minuspos
+            else:
+                if (currentlevel>=minuspos)
+                  f.seek(-1,1)
+                  return dict
+                else if (currentlevel<minuspos)
+                  f.seek(-1,1)
+                  newdict=jparsefile(f)
+                  dict[line]=newdict
+        else:
+            key,content = CleanString(line)
+            dict[key]=content
+
+    return dict
+    
 
 def parseFile(lastline,Indexline):
 
