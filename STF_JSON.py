@@ -123,13 +123,13 @@ def jparseFile(f):
             if (currentlevel==-1):
                 currentlevel=minuspos
             else:
-                if (currentlevel>=minuspos)
-                  f.seek(-1,1)
-                  return dict
-                else if (currentlevel<minuspos)
-                  f.seek(-1,1)
-                  newdict=jparsefile(f)
-                  dict[line]=newdict
+                if (currentlevel<minuspos):
+                    f.seek(-1,1)
+                    newdict=jparsefile(f)
+                    dict[line]=newdict
+                else:
+                    f.seek(-1,1)
+                    return dict
         else:
             key,content = CleanString(line)
             dict[key]=content
