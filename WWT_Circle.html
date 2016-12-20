@@ -1,0 +1,68 @@
+<!DOCTYPE html >
+<html>
+    <head>
+        <meta charset="utf-8" content="chrome=1, IE=edge" http-equiv="X-UA-Compatible" />
+        
+        <title>WWT Web Client Poly</title>
+        <script src="http://www.worldwidetelescope.org/scripts/wwtsdk.aspx"></script>
+        
+        <script>
+            // Create the WorldWide telescope object variable
+            var wwt;
+            
+            // Create variables to hold two circles
+            var circle1;
+            var circle2;
+            
+        // A function to create a circle
+        function createWWTCircle(fill, lineColor, fillColor, lineWidth, opacity, radius, skyRelative, ra, dec) {
+            var circle = wwt.createCircle(fill);
+            circle.set_lineColor(lineColor);
+            circle.set_fillColor(fillColor);
+            circle.set_lineWidth(lineWidth);
+            circle.set_opacity(opacity);
+            circle.set_radius(radius);
+            circle.set_skyRelative(skyRelative);
+            circle.setCenter(ra, dec);
+            return circle;
+        }
+        function initialize() {
+            wwt = wwtlib.WWTControl.initControl("WWTCanvas");
+            wwt.add_ready(wwtReady);
+        }
+        
+        // The wwtReady function is called by the WWT Web Control software
+        // This function sets up the wwt object, and the initial defaults
+        function wwtReady() {
+            wwt.settings.set_showCrosshairs(false); // Hide the Crosshairs from Canvas
+            wwt.settings.set_showConstellationFigures(false); // Hide Constellation Figures from Canvas
+            wwt.settings.set_showConstellationBoundries(false); // Hide Constellation Boundaries from Canvas
+            
+            // Create a skyRelative filled circle centered on Sagittarius
+            circle1 = createWWTCircle(true, "red", "yellow", 2, 1.0, 5, true, 286.485, -27.5231666666667);
+            wwt.addAnnotation(circle1);
+            
+            // Add its annotation
+            circle1.set_id("Center of Constellation Sagittarius");
+            circle1.set_label("RA 286.485, Dec -27.5231666666667");
+            circle1.set_showHoverLabel(true);
+            
+            // Create a fixed empty circle centered on Aquarius
+            circle2 = createWWTCircle(false, "green", "", 3, 1.0, 25, false, 334.345, -9.21083333333333);
+            
+            // Add its annotation
+            circle2.set_id("Center of Constellation Aquarius");
+            circle2.set_label("RA 334.345, Dec -9.21083333333333");
+            circle2.set_showHoverLabel(true);
+            wwt.addAnnotation(circle2);
+           
+        }
+        </script>
+    </head>
+    <body onload="initialize()" >
+        <!-- The body section creates a table containing the -->
+        <!-- canvas object that the WWT web client uses as the render target.-->
+    <div id="WWTCanvas" style="width:750px; height:750px; border-style: none; border-width: 0px;"></div>
+    </body>
+    
+</html>

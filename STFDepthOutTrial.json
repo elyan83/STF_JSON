@@ -33,7 +33,7 @@
       }, 
       "[:0,0,4] World Transformation": {
         "[:0,0,5] EI 3D Location": {
-          "coordinate->declination": "-29.38670", 
+          "coordinate__declination": "-29.38670", 
           "coordinate->radius": "0.00000", 
           "coordinate->right_ascension": "278.01870"
         }
