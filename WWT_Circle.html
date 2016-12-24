@@ -13,6 +13,28 @@
             // Create variables to hold two circles
             var circle1;
             var circle2;
+            var circle3;
+            var circle4;
+            
+            // Call JSON module
+            var json = require('json');
+            // Call FS module
+            var fs  = require("fs");
+            var filename = "STFDepthOutTrial.json";
+            // Read file line by line
+            
+            var line = fs.readFileSync(filename).toString().split("\n");
+            
+            
+            // Convert String  to JSON type
+            // Get content from file
+            var file = fs.readFileSync(filename);
+            var jsonContent = JSON.parse(file);
+            
+            var double Ra3 = 278.0187; // Doesn't work
+            var double Dec3 = -29.3867; // Doesn't work
+
+            
             
         // A function to create a circle
         function createWWTCircle(fill, lineColor, fillColor, lineWidth, opacity, radius, skyRelative, ra, dec) {
@@ -26,9 +48,59 @@
             circle.setCenter(ra, dec);
             return circle;
         }
+        
+        
+        // A function to sget the value of a specific key of the dictionary
+        /*function FindKeysContent(SearchKey, jsonFile) {
+            
+            for(var exKey in jsonFile) {
+                if(exKey = SearchKey){
+                    var NewJson = jsonFile[exKey];
+                    
+                }
+            }
+            
+            
+            
+            return NewJson;
+        }
+        
+       
+       // returns an array with element elem repeated n times.
+        var repeatelem = function(elem, n){
+            
+            var arr = [];
+            for (var i=0; i< n; i++) {
+                arr = arr.concat(elem);
+            };
+            return arr;
+        };*/
+        
+        
+        
+        
+        
         function initialize() {
             wwt = wwtlib.WWTControl.initControl("WWTCanvas");
             wwt.add_ready(wwtReady);
+        }
+        
+        
+        function FindKeysContent(SearchKey, jsonFile) {
+            
+            for(var exKey in jsonFile) {
+                if(exKey = SearchKey){
+                    //console.log("key:"+exKey+", value:"+ jsonContent[exKey]);
+                    var NewJson = jsonFile[exKey];
+                    
+                    //console.log( jsonContent[exKey]);
+                    
+                }
+            }
+            
+            
+            
+            return NewJson;
         }
         
         // The wwtReady function is called by the WWT Web Control software
@@ -38,13 +110,30 @@
             wwt.settings.set_showConstellationFigures(false); // Hide Constellation Figures from Canvas
             wwt.settings.set_showConstellationBoundries(false); // Hide Constellation Boundaries from Canvas
             
+            var content1 = FindKeysContent("[:0,0,2] Environment Root",jsonContent);
+            var content2 = FindKeysContent("[:0,0,3] Feature Model Instance",content1);
+            var content3 = FindKeysContent("[:0,0,4] World Transformation",content2);
+            var content4 = FindKeysContent("[:0,56,127] Feature Model Instance",content1);
+            var content5 = FindKeysContent("[:0,56,128] World Transformation",content4);
+            var content6 = FindKeysContent("[:0,0,5] EI 3D Location",content3);
+            var content7 = FindKeysContent("[:0,56,129] EI 3D Location",content5);
+            
+            //var Dec3 = parseFloat(FindKeysContent("coordinate__declination",content6));
+            //var Dec4 = FindKeysContent("coordinate__declination",content7);
+            //var Ra3 = parseFloat(FindKeysContent("coordinate__right_ascension",content6));
+            //var Ra4 = FindKeysContent("coordinate__right_ascension",content7);
+            //var DEC = [content6["coordinate__declination"],content7["coordinate__declination"]];
+            //var RA  = [content6["coordinate__right_ascension"],content7["coordinate__right_ascension"]];
+            
+            
+            
             // Create a skyRelative filled circle centered on Sagittarius
             circle1 = createWWTCircle(true, "red", "yellow", 2, 1.0, 5, true, 286.485, -27.5231666666667);
             wwt.addAnnotation(circle1);
             
             // Add its annotation
             circle1.set_id("Center of Constellation Sagittarius");
-            circle1.set_label("RA 286.485, Dec -27.5231666666667");
+            circle1.set_label("RA 278.01870, Dec -29.38670");
             circle1.set_showHoverLabel(true);
             
             // Create a fixed empty circle centered on Aquarius
@@ -55,6 +144,9 @@
             circle2.set_label("RA 334.345, Dec -9.21083333333333");
             circle2.set_showHoverLabel(true);
             wwt.addAnnotation(circle2);
+            
+            circle3 = createWWTCircle(true, "blue", "red", 2, 1.0, 5, true,278.0187, -29.3867);
+            wwt.addAnnotation(circle3);
            
         }
         </script>

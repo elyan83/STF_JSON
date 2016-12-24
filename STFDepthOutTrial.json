@@ -1,112 +1,172 @@
 {
-  "minor_EDCS_version": "4", 
-  "name->locale->country[0..2]": "usa", 
-  "[:0,0,2] Environment Root ": {
-    "srf_context_info->srf_parameters_info->value.srf_template->parameters.ei_srf_parameters->unused": "2051033536", 
-    "srf_context_info->use_dss_code": "SE_FALSE", 
+  "[:0,0,2] Environment Root": {
+    "srf_context_info__dss_code": "SRM_DSSCOD_UNSPECIFIED", 
+    "srf_context_info__srf_parameters_info__value.srf_template__template_code": "SRM_SRFTCOD_EQUATORIAL_INERTIAL", 
+    "srf_context_info__srf_parameters_info__rt_code": "SRM_RTCOD_UNSPECIFIED", 
+    "srf_context_info__linear_scale": "ERROR - ILLEGAL EDCS_Unit_Scale_Code VALUE (11)", 
+    "srf_context_info__srf_parameters_info__value.srf_template__parameters.ei_srf_parameters__unused": "2051033536", 
     "[:0,0,3] Feature Model Instance": {
       "[:0,0,11] Property Value": {
-        "meaning->code_type": "SE_PROPCODTYP_ATTRIBUTE", 
-        "value->attribute_value_type": "EDCS_AVT_REAL", 
-        "value->value.real_value->value.single_value": "0.00000", 
-        "value->value.real_value->unit_scale": "ESC_YOTTA", 
-        "value->value.real_value->unit": "EUC_KILOGRAM", 
-        "meaning->code.attribute": "EAC_MASS", 
-        "apply_property_inheritance": "SE_FALSE", 
-        "value->value.real_value->numeric_value_type": "EDCS_NVT_SINGLE_VALUE"
+        "meaning__code.attribute": "EAC_MASS", 
+        "value__value.real_value__numeric_value_type": "EDCS_NVT_SINGLE_VALUE", 
+        "value__value.real_value__unit": "EUC_KILOGRAM", 
+        "value__value.real_value__unit_scale": "ESC_YOTTA", 
+        "value__attribute_value_type": "EDCS_AVT_REAL", 
+        "value__value.real_value__value.single_value": "0.00000", 
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE"
       }, 
       "[:0,0,13] Property Value": {
-        "meaning->code_type": "SE_PROPCODTYP_ATTRIBUTE", 
-        "value->attribute_value_type": "EDCS_AVT_REAL", 
-        "value->value.real_value->value.single_value": "13.70000", 
-        "value->value.real_value->unit_scale": "ESC_UNI", 
-        "value->value.real_value->unit": "EUC_UNITLESS", 
-        "meaning->code.attribute": "EAC_COLOURATION", 
-        "apply_property_inheritance": "SE_FALSE", 
-        "value->value.real_value->numeric_value_type": "EDCS_NVT_SINGLE_VALUE"
+        "meaning__code.attribute": "EAC_COLOURATION", 
+        "value__value.real_value__numeric_value_type": "EDCS_NVT_SINGLE_VALUE", 
+        "value__value.real_value__unit": "EUC_UNITLESS", 
+        "value__value.real_value__unit_scale": "ESC_UNI", 
+        "value__attribute_value_type": "EDCS_AVT_REAL", 
+        "value__value.real_value__value.single_value": "13.70000", 
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE"
       }, 
       "[:0,0,8] Property Value": {
-        "meaning->code_type": "SE_PROPCODTYP_ATTRIBUTE", 
-        "value->attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (1)", 
-        "meaning->code.attribute": "EAC_PERIODIC_CYCLE_TIME", 
-        "apply_property_inheritance": "SE_FALSE"
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE", 
+        "value__attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (1)", 
+        "meaning__code.attribute": "EAC_PERIODIC_CYCLE_TIME"
       }, 
       "[:0,0,4] World Transformation": {
         "[:0,0,5] EI 3D Location": {
           "coordinate__declination": "-29.38670", 
-          "coordinate->radius": "0.00000", 
-          "coordinate->right_ascension": "278.01870"
+          "coordinate__radius": "0.00000", 
+          "coordinate__right_ascension": "278.01870"
         }
       }, 
       "[:0,0,9] Property Value": {
-        "meaning->code_type": "SE_PROPCODTYP_ATTRIBUTE", 
-        "value->attribute_value_type": "EDCS_AVT_REAL", 
-        "value->value.real_value->value.single_value": "0.00000", 
-        "value->value.real_value->unit_scale": "ESC_UNI", 
-        "value->value.real_value->unit": "EUC_DAY", 
-        "meaning->code.attribute": "EAC_TIME_QUANTITY", 
-        "apply_property_inheritance": "SE_FALSE", 
-        "value->value.real_value->numeric_value_type": "EDCS_NVT_SINGLE_VALUE"
+        "meaning__code.attribute": "EAC_TIME_QUANTITY", 
+        "value__value.real_value__numeric_value_type": "EDCS_NVT_SINGLE_VALUE", 
+        "value__value.real_value__unit": "EUC_DAY", 
+        "value__value.real_value__unit_scale": "ESC_UNI", 
+        "value__attribute_value_type": "EDCS_AVT_REAL", 
+        "value__value.real_value__value.single_value": "0.00000", 
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE"
       }, 
       "[:0,0,10] Property Value": {
-        "meaning->code_type": "SE_PROPCODTYP_ATTRIBUTE", 
-        "value->attribute_value_type": "EDCS_AVT_REAL", 
-        "value->value.real_value->value.single_value": "0.00000", 
-        "value->value.real_value->unit_scale": "ESC_UNI", 
-        "value->value.real_value->unit": "EUC_DEGREE_ARC", 
-        "meaning->code.attribute": "EAC_ORIENTATION_ANGLE", 
-        "apply_property_inheritance": "SE_FALSE", 
-        "value->value.real_value->numeric_value_type": "EDCS_NVT_SINGLE_VALUE"
+        "meaning__code.attribute": "EAC_ORIENTATION_ANGLE", 
+        "value__value.real_value__numeric_value_type": "EDCS_NVT_SINGLE_VALUE", 
+        "value__value.real_value__unit": "EUC_DEGREE_ARC", 
+        "value__value.real_value__unit_scale": "ESC_UNI", 
+        "value__attribute_value_type": "EDCS_AVT_REAL", 
+        "value__value.real_value__value.single_value": "0.00000", 
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE"
       }, 
       "[:0,0,6] Classification Data  (RETURN THE DICTIONARY AND THE LAST LINE -> START A NEW SUB-DICTIONARY)": {
         "| tag": "ERROR - ILLEGAL EDCS_Classification_Code VALUE (1159)"
       }, 
       "[:0,0,12] Property Value": {
-        "meaning->code_type": "SE_PROPCODTYP_ATTRIBUTE", 
-        "value->attribute_value_type": "EDCS_AVT_REAL", 
-        "value->value.real_value->value.single_value": "0.00000", 
-        "value->value.real_value->unit_scale": "ESC_YOTTA", 
-        "value->value.real_value->unit": "EUC_KILOGRAM", 
-        "meaning->code.attribute": "EAC_MASS", 
-        "apply_property_inheritance": "SE_FALSE", 
-        "value->value.real_value->numeric_value_type": "EDCS_NVT_SINGLE_VALUE"
-      }, 
-      "[:0,0,7] Property Value": {
-        "meaning->code_type": "SE_PROPCODTYP_ATTRIBUTE", 
-        "value->attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (5)", 
-        "meaning->code.attribute": "ERROR - ILLEGAL EDCS_Attribute_Code VALUE (228)", 
+        "meaning__code.attribute": "EAC_MASS", 
+        "value__value.real_value__numeric_value_type": "EDCS_NVT_SINGLE_VALUE", 
+        "value__value.real_value__unit": "EUC_KILOGRAM", 
+        "value__value.real_value__unit_scale": "ESC_YOTTA", 
+        "value__attribute_value_type": "EDCS_AVT_REAL", 
+        "value__value.real_value__value.single_value": "0.00000", 
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
         "apply_property_inheritance": "SE_FALSE"
       }, 
-      "[:0,0,14] Property Value": {
-        "meaning->code_type": "SE_PROPCODTYP_ATTRIBUTE", 
-        "value->attribute_value_type": "EDCS_AVT_REAL", 
-        "value->value.real_value->value.single_value": "0.00000", 
-        "value->value.real_value->unit_scale": "ESC_UNI", 
-        "value->value.real_value->unit": "EUC_UNITLESS", 
-        "meaning->code.attribute": "EAC_COLOURATION", 
+      "[:0,0,7] Property Value": {
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
         "apply_property_inheritance": "SE_FALSE", 
-        "value->value.real_value->numeric_value_type": "EDCS_NVT_SINGLE_VALUE"
+        "value__attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (5)", 
+        "meaning__code.attribute": "ERROR - ILLEGAL EDCS_Attribute_Code VALUE (228)"
+      }, 
+      "[:0,0,14] Property Value": {
+        "meaning__code.attribute": "EAC_COLOURATION", 
+        "value__value.real_value__numeric_value_type": "EDCS_NVT_SINGLE_VALUE", 
+        "value__value.real_value__unit": "EUC_UNITLESS", 
+        "value__value.real_value__unit_scale": "ESC_UNI", 
+        "value__attribute_value_type": "EDCS_AVT_REAL", 
+        "value__value.real_value__value.single_value": "0.00000", 
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE"
       }
     }, 
-    "srf_context_info->angular_unit": "ERROR - ILLEGAL EDCS_Unit_Code VALUE (40)", 
-    "srf_context_info->srf_parameters_info->value.srf_template->template_code": "SRM_SRFTCOD_EQUATORIAL_INERTIAL", 
-    "srf_context_info->linear_unit": "ERROR - ILLEGAL EDCS_Unit_Code VALUE (172)", 
-    "srf_context_info->srf_parameters_info->value.srf_template->orm_code": "SRM_ORMCOD_EARTH_INERTIAL_J2000r0", 
-    "srf_context_info->srf_parameters_info->rt_code": "SRM_RTCOD_UNSPECIFIED", 
-    "srf_context_info->srf_parameters_info->srf_params_info_code": "SRM_SRFPARAMINFCOD_TEMPLATE", 
-    "srf_context_info->linear_scale": "ERROR - ILLEGAL EDCS_Unit_Scale_Code VALUE (11)", 
-    "srf_context_info->dss_code": "SRM_DSSCOD_UNSPECIFIED"
+      "[:0,56,127] Feature Model Instance": {
+      "[:0,56,130] Classification Data": {
+        "| tag": "ERROR - ILLEGAL EDCS_Classification_Code VALUE (1159)"
+      }, 
+      "[:0,56,136] Property Value": {
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE", 
+        "value__attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (1)", 
+        "meaning__code.attribute": "ERROR - ILLEGAL EDCS_Attribute_Code VALUE (684)"
+      }, 
+      "[:0,56,131] Property Value": {
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE", 
+        "value__attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (5)", 
+        "meaning__code.attribute": "ERROR - ILLEGAL EDCS_Attribute_Code VALUE (228)"
+      }, 
+      "[:0,56,132] Property Value": {
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE", 
+        "value__attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (1)", 
+        "meaning__code.attribute": "ERROR - ILLEGAL EDCS_Attribute_Code VALUE (956)"
+      }, 
+      "[:0,56,134] Property Value": {
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE", 
+        "value__attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (1)", 
+        "meaning__code.attribute": "ERROR - ILLEGAL EDCS_Attribute_Code VALUE (933)"
+      }, 
+      "[:0,56,137] Property Value": {
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE", 
+        "value__attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (1)", 
+        "meaning__code.attribute": "ERROR - ILLEGAL EDCS_Attribute_Code VALUE (240)"
+      }, 
+      "[:0,56,133] Property Value": {
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE", 
+        "value__attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (1)", 
+        "meaning__code.attribute": "ERROR - ILLEGAL EDCS_Attribute_Code VALUE (1447)"
+      }, 
+      "[:0,56,128] World Transformation": {
+        "[:0,56,129] EI 3D Location": {
+          "coordinate__declination": "16.00000", 
+          "coordinate__radius": "0.00000", 
+          "coordinate__right_ascension": "348.25000"
+        }
+      }, 
+      "[:0,56,135] Property Value": {
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE", 
+        "value__attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (1)", 
+        "meaning__code.attribute": "ERROR - ILLEGAL EDCS_Attribute_Code VALUE (684)"
+      }, 
+      "[:0,56,138] Property Value": {
+        "meaning__code_type": "SE_PROPCODTYP_ATTRIBUTE", 
+        "apply_property_inheritance": "SE_FALSE", 
+        "value__attribute_value_type": "ERROR - ILLEGAL EDCS_Attribute_Value_Type VALUE (1)", 
+        "meaning__code.attribute": "ERROR - ILLEGAL EDCS_Attribute_Code VALUE (240)"
+      }
+    }, 
+    "srf_context_info__use_dss_code": "SE_FALSE", 
+    "srf_context_info__linear_unit": "ERROR - ILLEGAL EDCS_Unit_Code VALUE (172)", 
+    "srf_context_info__srf_parameters_info__srf_params_info_code": "SRM_SRFPARAMINFCOD_TEMPLATE", 
+    "srf_context_info__angular_unit": "ERROR - ILLEGAL EDCS_Unit_Code VALUE (40)", 
+    "srf_context_info__srf_parameters_info__value.srf_template__orm_code": "SRM_ORMCOD_EARTH_INERTIAL_J2000r0"
   }, 
   "[:0,0,1] Model Library": {}, 
-  "name->locale->language[0..1]": "en", 
-  "name->characters": "LMBX_cat.stf", 
+  "name__locale__country[0..2]": "usa", 
+  "minor_EDCS_version": "4", 
   "major_DRM_version": "4", 
   "minor_SRM_version": "1", 
   "interim_SRM_version": "", 
   "interim_DRM_version": "", 
   "minor_DRM_version": "1", 
   "major_SRM_version": "4", 
+  "name__characters": "LMBX_cat.stf", 
   "major_EDCS_version": "4", 
+  "name__locale__language[0..1]": "en", 
   "interim_EDCS_version": "", 
-  "name->length": "12"
+  "name__length": "12"
 }

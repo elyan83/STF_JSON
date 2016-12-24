@@ -31,6 +31,7 @@ def CleanString(content):
                 x = content.rsplit(':', 1)[0] ## Will contain the strings before ':' character
                 x = x.strip('\n')
                 x = x.strip(' ')
+                x = x.replace("->","__")
 
                 y = line[line.find(':')+1 :  ] ## Will contain the strings after ':' character
                 y = y.strip('\n')
@@ -82,11 +83,11 @@ def main():
     """
 
 
-fname = open('DepthOutTrial.csv','r')
+fname = open('DepthOut.csv','r')
 
 Dictionary = jparseFile(fname)
 
-with open('STFDepthOutTrial.json', 'w') as outfile:
+with open('STFDepthOut.json', 'w') as outfile:
     json.dump(Dictionary, outfile, indent = 2)
 
 #------------------------------------------------------------------------------

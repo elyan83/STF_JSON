@@ -13,7 +13,7 @@ console.log("\n *STARTING* \n");
 var file = fs.readFileSync("STFDepthOutTrial.json");
 
 // Convert String  to JSON type
- var jsonContent = JSON.parse(file);
+ var jsonContent = JSON.parse(file); // Parse after the for loop, for each function
 
 // Get Value from JSON
 
