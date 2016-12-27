@@ -1,0 +1,208 @@
+<!DOCTYPE html >
+<html>
+    <head>
+        <meta charset="utf-8" content="chrome=1, IE=edge" http-equiv="X-UA-Compatible" />
+        
+        <title>WWT Web Client Poly</title>
+        <script src="http://www.worldwidetelescope.org/scripts/wwtsdk.aspx"></script>
+        
+        <script>
+            // Create the WorldWide telescope object variable
+            var wwt;
+            
+            // Create variables to hold two circles
+            var circle1;
+            var circle2;
+            var circle3;
+            var circle4;
+            
+            // Call libraries
+            var json = require('json');
+            var fs   = require('fs');
+            
+            // Degine keys
+            var DefKey = ["Environment Root","Feature Model Instance","World Transformation","EI 3D Location"];
+            var key = new Array();
+            
+            var RA = [];
+            var DEC = [];
+            var countFeat = 0;
+            
+            var filename = "STFDepthOut.json";
+            
+            // Get content from file
+            var file = fs.readFileSync(filename);
+            // Access to each line of the Database as string
+            var line = file.toString().split("\n");
+            
+            // Convert String  to JSON type
+            var jsonContent = JSON.parse(file);
+            
+            var newcontent = [];
+
+            
+            
+        // A function to create a circle
+        function createWWTCircle(fill, lineColor, fillColor, lineWidth, opacity, radius, skyRelative, ra, dec) {
+            var circle = wwt.createCircle(fill);
+            circle.set_lineColor(lineColor);
+            circle.set_fillColor(fillColor);
+            circle.set_lineWidth(lineWidth);
+            circle.set_opacity(opacity);
+            circle.set_radius(radius);
+            circle.set_skyRelative(skyRelative);
+            circle.setCenter(ra, dec);
+            return circle;
+        }
+        
+        
+        // Find all keys in de dictionary and return the dictionary selected.
+        function FindKeysContent(SearchKey, jsonFile) {
+            
+            for(var exKey in jsonFile) {
+                if(exKey = SearchKey){
+                    var NewJson = jsonFile[exKey];
+                    
+                }
+            }
+            
+            
+            return NewJson;
+        }
+        
+        // returns an array with element elem repeated n times.
+        var repeatelem = function(elem, n){
+            var arr = [];
+            for (var i=0; i< n; i++) {
+                arr = arr.concat(elem);
+            };
+            return arr;
+        };
+        
+        // Read Content of a file line by line and define all the keys contained in DefKey
+        function DefineKeys(line, DefKey) {
+            //var countFeat = 0;
+            var key = new Array();
+            
+            for(i in line) {
+                if (line[i].indexOf(DefKey[0]) > -1 || line[i].indexOf(DefKey[1]) > -1 || line[i].indexOf(DefKey[2]) > -1 || line[i].indexOf(DefKey[3]) > -1 ){
+                    
+                    var myString =line[i];
+                    myString = myString.replace(/\s+/,"")
+                    myString = myString.replace('"','');
+                    myString = myString.replace('": {','');
+                    key.push(myString);
+                    
+                    if(line[i].indexOf(DefKey[1]) > -1) {
+                        countFeat = countFeat+1; // Counts all the FeatureModelInstances
+                    }
+                    
+                }
+            }
+            return DefKey,key;
+        }
+
+
+        //  Select all the Keys
+
+        function SelectKeys(key, countFeat,jsonContent) {
+    
+            var k = 0;
+            for(i in key) {
+                if (i == 0){
+            
+                    var content1 = FindKeysContent(key[i],jsonContent);
+                    newcontent = repeatelem(content1,countFeat);
+                    countFeat = 0;
+                }
+        
+                if (i>0){
+            
+                    if (i > k+3){
+                        countFeat = countFeat+1;
+                        k = k+3;
+                
+                    }
+            
+                    newcontent[countFeat] = FindKeysContent(key[i],newcontent[countFeat]);
+            
+                }
+                
+            }
+            return newcontent;
+        }
+        
+        //  Select the coordinates
+        
+        function SelectCoordinates(newcontent) {
+            
+            for(i in newcontent) {
+                
+                RA.push(parseFloat(FindKeysContent("coordinate__right_ascension",newcontent[i])));
+                DEC.push(parseFloat(FindKeysContent("coordinate__declination",newcontent[i])));
+                
+            }
+            
+            return RA, DEC
+            
+        }
+
+        
+        
+        
+        function initialize() {
+            wwt = wwtlib.WWTControl.initControl("WWTCanvas");
+            wwt.add_ready(wwtReady);
+        }
+        
+        
+
+        // The wwtReady function is called by the WWT Web Control software
+        // This function sets up the wwt object, and the initial defaults
+        function wwtReady() {
+            wwt.settings.set_showCrosshairs(false); // Hide the Crosshairs from Canvas
+            wwt.settings.set_showConstellationFigures(false); // Hide Constellation Figures from Canvas
+            wwt.settings.set_showConstellationBoundries(false); // Hide Constellation Boundaries from Canvas
+            
+            
+            //Define the keys and the number of coordinates
+            DefKey,key = DefineKeys(line, DefKey);
+            
+            newcontent = SelectKeys(key, countFeat,jsonContent);
+            
+            //  Get Coordinates (Floating)
+            RA, DEC = SelectCoordinates(newcontent);
+
+            
+            
+            // Create a skyRelative filled circle centered on Sagittarius
+            circle1 = createWWTCircle(true, "red", "yellow", 2, 1.0, 5, true, 286.485, -27.5231666666667);
+            wwt.addAnnotation(circle1);
+            
+            // Add its annotation
+            circle1.set_id("Center of Constellation Sagittarius");
+            circle1.set_label("RA 278.01870, Dec -29.38670");
+            circle1.set_showHoverLabel(true);
+            
+            // Create a fixed empty circle centered on Aquarius
+            circle2 = createWWTCircle(false, "green", "", 3, 1.0, 25, false, 334.345, -9.21083333333333);
+            
+            // Add its annotation
+            circle2.set_id("Center of Constellation Aquarius");
+            circle2.set_label("RA 334.345, Dec -9.21083333333333");
+            circle2.set_showHoverLabel(true);
+            wwt.addAnnotation(circle2);
+
+            circle3 = createWWTCircle(true, "blue", "red", 2, 1.0, 5, true, RA[0],DEC[0]);
+            wwt.addAnnotation(circle3);
+           
+        }
+        </script>
+    </head>
+    <body onload="initialize()" >
+        <!-- The body section creates a table containing the -->
+        <!-- canvas object that the WWT web client uses as the render target.-->
+    <div id="WWTCanvas" style="width:750px; height:750px; border-style: none; border-width: 0px;"></div>
+    </body>
+    
+</html>

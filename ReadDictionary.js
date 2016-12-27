@@ -1,56 +1,155 @@
 
-/*Acces JSON file content as a Dictionary */
+/*********************************/
+/********* FUNCTIONS *************/
 /*********************************/
 
-// Call JSON module
+// Find all keys in de dictionary and return the dictionary selected.
+function FindKeysContent(SearchKey, jsonFile) {
+    
+    for(var exKey in jsonFile) {
+        if(exKey = SearchKey){
+            var NewJson = jsonFile[exKey];
+            
+        }
+    }
+    
+    
+    return NewJson;
+}
+
+// returns an array with element elem repeated n times.
+var repeatelem = function(elem, n){
+    var arr = [];
+    for (var i=0; i< n; i++) {
+        arr = arr.concat(elem);
+    };
+    return arr;
+};
+
+// Read Content of a file line by line and define all the keys contained in DefKey
+
+function DefineKeys(line, DefKey) {
+    //var countFeat = 0;
+    var key = new Array();
+    
+    for(i in line) {
+        if (line[i].indexOf(DefKey[0]) > -1 || line[i].indexOf(DefKey[1]) > -1 || line[i].indexOf(DefKey[2]) > -1 || line[i].indexOf(DefKey[3]) > -1 ){
+        
+            var myString =line[i];
+            myString = myString.replace(/\s+/,"")
+            myString = myString.replace('"','');
+            myString = myString.replace('": {','');
+            key.push(myString);
+        
+            if(line[i].indexOf(DefKey[1]) > -1) {
+                countFeat = countFeat+1; // Counts all the FeatureModelInstances
+            }
+        
+        }
+    }
+    return DefKey,key;
+}
+
+
+//  Select all the Keys
+
+function SelectKeys(key, countFeat,jsonContent) {
+    
+    var k = 0;
+    
+    for(i in key) {
+    
+        if (i == 0){
+        
+            var content1 = FindKeysContent(key[i],jsonContent);
+            newcontent = repeatelem(content1,countFeat);
+            countFeat = 0;
+        
+        }
+    
+        if (i>0){
+        
+            if (i > k+3){
+                countFeat = countFeat+1;
+                k = k+3;
+            
+            }
+        
+            newcontent[countFeat] = FindKeysContent(key[i],newcontent[countFeat]);
+        
+        }
+    
+    }
+    return newcontent;
+}
+
+//  Select the coordinates
+
+function SelectCoordinates(newcontent) {
+   
+    for(i in newcontent) {
+        
+        RA.push(parseFloat(FindKeysContent("coordinate__right_ascension",newcontent[i])));
+        DEC.push(parseFloat(FindKeysContent("coordinate__declination",newcontent[i])));
+        
+    }
+    
+    return RA, DEC
+    
+}
+
+
+/*********************************/
+/*********************************/
+
+
+/*********************************/
+/************* MAIN **************/
+/*********************************/
+
+// Call libraries
 var json = require('json');
+var fs   = require('fs');
 
-// Define JSON File
-var fs   = require("fs");
-console.log("\n *STARTING* \n");
 
+var DefKey = ["Environment Root","Feature Model Instance","World Transformation","EI 3D Location"];
+var key = new Array();
+var RA = [];
+var DEC = [];
+var countFeat = 0;
+
+var filename = "STFDepthOut.json";
 // Get content from file
-var file = fs.readFileSync("STFDepthOutTrial.json");
+var file = fs.readFileSync(filename);
+// Access to each line of the Database as string
+var line = file.toString().split("\n");
+
+
+//Define the keys and the number of coordinates
+DefKey,key = DefineKeys(line, DefKey);
+
 
 // Convert String  to JSON type
- var jsonContent = JSON.parse(file); // Parse after the for loop, for each function
+var jsonContent = JSON.parse(file);
 
-// Get Value from JSON
+var newcontent = [];
 
-console.log("minor_EDCS_version:", jsonContent.minor_EDCS_version); // THIS WORKS WELL AND PRINT 4 VALUE
-console.log("\n");
-console.log("Declination :", jsonContent.coordinate__declination); // THIS DESN'T GENERATE ERROR, BUT THE CONTENT IS 'UNDEFINED'
-console.log("\n");
-//console.log(RightAscension :", jsonContent.coordinate->right_ascension); THIS GENERATE ERROR BECAUSE OF THE ' ->' CHARACTER
-console.log("\n *EXIT* \n");
+newcontent = SelectKeys(key, countFeat,jsonContent);
 
 
-// Access to every element of a JSON object
-// ONLY THE TRANSMITTAL_ROOT LEVEL IS TAKEN INTO ACCOUNT, THEN STOPS
-
-for(var exKey in jsonContent) {
-      console.log("key:"+exKey+", value:"+ jsonContent[exKey]);
- }
+//  Get Coordinates (Floating)
+RA, DEC = SelectCoordinates(newcontent);
 
 
-//Checking whether the JSON object has a specific key
+console.log(RA[0]);
+console.log(DEC[0]);
 
-console.log("\n");
-
-if(jsonContent.hasOwnProperty('minor_EDCS_version')){
-    console.log('minor_EDCS_version',jsonContent.minor_EDCS_version); // THIS WORKS
-}
-
-if(jsonContent.hasOwnProperty('coordinate__declination')){
-    console.log('coordinate__declination',jsonContent.coordinate__declination); // NEVER SHOWS THIS
-}
-
-/*if(jsonContent.hasOwnProperty('coordinate->right_ascension')){
-    console.log('coordinate->right_ascension',jsonContent.coordinate->right_ascension); // THIS DOES'T WORK BECAUSE OF THE -> STRING
-}*/
-console.log("\n");
 
 /*********************************/
+/*********************************/
+
+<script type="text/javascript" src="STFDepthOut.json"></script>
+<script type="text/javascript" src="javascrip.js"></script>
 
 
 

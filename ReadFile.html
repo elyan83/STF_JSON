@@ -1,0 +1,43 @@
+<!DOCTYPE html >
+<html>
+    <head>
+        <meta charset="utf-8" content="chrome=1, IE=edge" http-equiv="X-UA-Compatible" />
+        
+        <title>WWT Web Client Poly</title>
+        <script src="http://www.worldwidetelescope.org/scripts/wwtsdk.aspx"></script>
+        <script src="output.js"></script>
+        
+       
+        
+        <script>
+            // Create the WorldWide telescope object variable
+            var wwt;
+         
+        
+        
+        function initialize() {
+            wwt = wwtlib.WWTControl.initControl("WWTCanvas");
+            wwt.add_ready(wwtReady);
+        }
+        
+        
+
+        // The wwtReady function is called by the WWT Web Control software
+        // This function sets up the wwt object, and the initial defaults
+        function wwtReady() {
+            wwt.settings.set_showCrosshairs(false); // Hide the Crosshairs from Canvas
+            wwt.settings.set_showConstellationFigures(false); // Hide Constellation Figures from Canvas
+            wwt.settings.set_showConstellationBoundries(false); // Hide Constellation Boundaries from Canvas
+            
+          
+           
+        }
+        </script>
+    </head>
+    <body onload="initialize()" >
+        <!-- The body section creates a table containing the -->
+        <!-- canvas object that the WWT web client uses as the render target.-->
+    <div id="WWTCanvas" style="width:750px; height:750px; border-style: none; border-width: 0px;"></div>
+    </body>
+    
+</html>
