@@ -141,15 +141,14 @@ newcontent = SelectKeys(key, countFeat,jsonContent);
 RA, DEC = SelectCoordinates(newcontent);
 
 
-console.log(RA[0]);
-console.log(DEC[0]);
+console.log(RA);
+console.log(DEC);
+console.log(countFeat);
 
 
 /*********************************/
 /*********************************/
 
-<script type="text/javascript" src="STFDepthOut.json"></script>
-<script type="text/javascript" src="javascrip.js"></script>
 
 
 

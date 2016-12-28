@@ -1,0 +1,204 @@
+<!DOCTYPE html >
+<html>
+    <head>
+        <meta charset="utf-8" content="chrome=1, IE=edge" http-equiv="X-UA-Compatible" />
+        
+        <title>WWT Web Client Poly</title>
+        <script src="http://www.worldwidetelescope.org/scripts/wwtsdk.aspx"></script>
+        
+    
+        
+        
+       
+        
+        <script>
+            // Create the WorldWide telescope object variable
+            var wwt;
+            var datastring;
+            // Degine keys
+            var DefKey = ["Environment Root","Feature Model Instance","World Transformation","EI 3D Location"];
+            var key = new Array();
+            var countFeat = 0;
+            var newcontent = [];
+            var RA = [];
+            var DEC = [];
+            
+            var circle_obj=[];
+        
+        
+        function initialize() {
+            wwt = wwtlib.WWTControl.initControl("WWTCanvas");
+            wwt.add_ready(wwtReady);
+        }
+        
+        
+        
+        function FileReader(pathOfFileToReadFrom)
+        
+        {
+            //FileHelper.readStringFromFileAtPath = function(pathOfFileToReadFrom)
+            //{
+                var request = new XMLHttpRequest();
+                request.open("GET", pathOfFileToReadFrom, false);
+                request.send(null);
+                var returnValue = request.responseText;
+                
+                return returnValue;
+            //}
+        }
+
+
+        // Read Content of a file line by line and define all the keys contained in DefKey
+        function DefineKeys(line, DefKey) {
+    
+            //var key = new Array();
+    
+            for(i in line) {
+                if (line[i].indexOf(DefKey[0]) > -1 || line[i].indexOf(DefKey[1]) > -1 || line[i].indexOf(DefKey[2]) > -1 || line[i].indexOf(DefKey[3]) > -1 ){
+            
+                    var myString =line[i];
+                    myString = myString.replace(/\s+/,"")
+                    myString = myString.replace('"','');
+                    myString = myString.replace('": {','');
+                    key.push(myString);
+            
+                    if(line[i].indexOf(DefKey[1]) > -1) {
+                        countFeat = countFeat+1; // Counts all the FeatureModelInstances
+                        }
+            
+                    }
+                }
+                //return key,countFeat;
+            }
+        
+        
+        // Find all keys in de dictionary and return the dictionary selected.
+        function FindKeysContent(SearchKey, jsonFile) {
+            
+            for(var exKey in jsonFile) {
+                if(exKey = SearchKey){
+                    var NewJson = jsonFile[exKey];
+                    
+                }
+            }
+            
+            
+            return NewJson;
+        }
+        
+        // returns an array with element elem repeated n times.
+        var repeatelem = function(elem, n){
+            var arr = [];
+            for (var i=0; i< n; i++) {
+                arr = arr.concat(elem);
+            };
+            return arr;
+        };
+        
+        
+        //  Select all the Keys
+        
+        function SelectKeys(key, countFeat,jsonContent) {
+            
+            var k = 0;
+            for(i in key) {
+                if (i == 0){
+                    
+                    var content1 = FindKeysContent(key[i],jsonContent);
+                    newcontent = repeatelem(content1,countFeat);
+                    countFeat = 0;
+                }
+                
+                if (i>0){
+                    
+                    if (i > k+3){
+                        countFeat = countFeat+1;
+                        k = k+3;
+                        
+                    }
+                    
+                    newcontent[countFeat] = FindKeysContent(key[i],newcontent[countFeat]);
+                    
+                }
+                
+            }
+            return newcontent;
+        }
+        
+        //  Select the coordinates
+        
+        function SelectCoordinates(newcontent) {
+            
+            for(i in newcontent) {
+                
+                RA.push(parseFloat(FindKeysContent("coordinate__right_ascension",newcontent[i])));
+                DEC.push(parseFloat(FindKeysContent("coordinate__declination",newcontent[i])));
+                
+            }
+            
+            return RA, DEC
+            
+        }
+        
+        
+        // A function to create a circle
+        function createWWTCircle(fill, lineColor, fillColor, lineWidth, opacity, radius, skyRelative, ra, dec) {
+            var circle = wwt.createCircle(fill);
+            circle.set_lineColor(lineColor);
+            circle.set_fillColor(fillColor);
+            circle.set_lineWidth(lineWidth);
+            circle.set_opacity(opacity);
+            circle.set_radius(radius);
+            circle.set_skyRelative(skyRelative);
+            circle.setCenter(ra, dec);
+            return circle;
+        }
+
+        // The wwtReady function is called by the WWT Web Control software
+        // This function sets up the wwt object, and the initial defaults
+        function wwtReady() {
+            wwt.settings.set_showCrosshairs(false); // Hide the Crosshairs from Canvas
+            wwt.settings.set_showConstellationFigures(false); // Hide Constellation Figures from Canvas
+            wwt.settings.set_showConstellationBoundries(false); // Hide Constellation Boundaries from Canvas
+
+                         
+           var datastring  = FileReader("./STFDepthOut.json");
+           var jsonContent = JSON.parse(datastring); // Get JSON file
+           var line = datastring.split(/\r?\n/);
+           
+           DefineKeys(line, DefKey); // Get Keys
+           
+           newcontent = SelectKeys(key, countFeat,jsonContent);
+           
+           
+           
+           //  Get Coordinates (Floating)
+           RA, DEC = SelectCoordinates(newcontent);
+           
+           var color = "blue";
+           
+           for(i in RA){
+           
+                if(i> 300 && i<=900){color = "cyan"};
+                if(i> 900 && i<=1300){color = "yellow"};
+                if(i> 1300){color = "orange"};
+           
+                circle_obj[i] = createWWTCircle(true, "red", color, 1.0, 1.0, 5, false, RA[i],DEC[i]);
+                wwt.addAnnotation(circle_obj[i]);
+                
+            }
+           
+          
+
+           
+        }
+        
+        </script>
+    </head>
+    <body onload="initialize()" >
+        <!-- The body section creates a table containing the -->
+        <!-- canvas object that the WWT web client uses as the render target.-->
+    <div id="WWTCanvas" style="width:750px; height:750px; border-style: none; border-width: 0px;"></div>
+    </body>
+    
+</html>
