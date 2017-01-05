@@ -4,14 +4,13 @@
 # Copyright (c) 2016 Jeremy Heyl and Elisa Antolini
 
 
-from subprocess import call
+
 import json
 import re
+import sys
+import subprocess
+import cStringIO
 
-
-### UNCOMMENT THIS FOR GENERATE THE CSV output file from the Transmittal ####
-
-#call('depth -v LMBX_cat.stf > DepthOut.csv', shell=True)
 
 
 
@@ -40,10 +39,12 @@ def CleanString(content):
     return(x,y)
 
 
+
 def jparseFile(f):
     currentlevel=-1
     dict={}
     p = re.compile('^\s*-')
+
     while True:
         line=f.readline()
         
@@ -52,12 +53,21 @@ def jparseFile(f):
             return dict
         if p.match(line)!= None:
             minuspos=line.index('-')
+            
             if (currentlevel==-1):
                 currentlevel=minuspos
+                # print(str(currentlevel)+" "+str(line))
+            
             else:
                 if (currentlevel<minuspos):
+                    
+
                     f.seek(-len(line),1)
                     newdict=jparseFile(f)
+               
+                    #print(newdict)
+                    #print("\n")
+                    
                     line.strip()
                     line = line.strip(' ')
                     line = line.strip('-')
@@ -71,8 +81,10 @@ def jparseFile(f):
         else:
             key,content = CleanString(line)
             dict[key]=content
+
     
     return dict
+
 
 #------------------------------------------------------------------------------
 # main
@@ -82,17 +94,56 @@ def main():
     This is the main routine.
     """
 
+filename = sys.argv[1]
+print "******************************************************"
+print("Input File = " +str(filename))
 
-fname = open('DepthOut.csv','r')
+if not filename.endswith('.json'):
+    
+    # The input File is a Sedris Transmittal
+    if filename.endswith('.stf'):
 
-Dictionary = jparseFile(fname)
+        jsonOutFile = filename.replace('.stf','.json')
+        cmd = ['depth','-v',filename]
 
-with open('STFDepthOut.json', 'w') as outfile:
-    json.dump(Dictionary, outfile, indent = 2)
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    
+        StfOut = proc.stdout.read()
+        StfOut = StfOut.decode("utf-8")
+        StfOut = StfOut.split("\n")
+        StfOut = StfOut[7:len(StfOut)-14]
+        StfOut = '\n'.join(StfOut)
+        StfOut = StfOut.encode("utf-8")
+        content = cStringIO.StringIO(StfOut)
+
+     # The input file is not a Sedris Transmittal
+    else:
+        content = open(filename,'r')
+        ext = filename[filename.find('.')+1 :  ] ## Will contain the strings after ':' character
+        ext = '.'+ext
+        jsonOutFile = filename.replace(ext,'.json')
+
+
+
+    print("Output File = "+str(jsonOutFile))
+    print "******************************************************"
+    print "\n"
+    Dictionary = jparseFile(content)
+
+    with open(jsonOutFile, 'w') as outfile:
+        json.dump(Dictionary, outfile, indent = 2)
+
+else :
+    print "\n"
+    print "*********************** ERROR ************************"
+    print "A json file cannot be converted into another json file"
+    print "******************************************************"
+    print "\n"
 
 #------------------------------------------------------------------------------
 # Start program execution.
 #
+
+
 if __name__ == '__main__':
     main()
-
