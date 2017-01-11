@@ -1,0 +1,98 @@
+<!DOCTYPE html >
+<html>
+    <head>
+        <meta charset="utf-8" content="chrome=1, IE=edge" http-equiv="X-UA-Compatible" />
+
+        <title>WWT Web Client Poly</title>
+        <script src="http://www.worldwidetelescope.org/scripts/wwtsdk.aspx"></script>
+
+
+        <script>
+            // Create the WorldWide telescope object variable
+            var wwt;
+            var circle_obj;
+            var RA = 286.485;
+            var DEC = -27.523167
+
+
+
+        function initialize() {
+            wwt = wwtlib.WWTControl.initControl("WWTCanvas");
+            wwt.add_ready(wwtReady);
+            wwt.add_clicked(wwtClick);
+            //wwt.add_clicked(wwtClick(circle_obj));
+            
+            }
+
+
+
+        // A function to create a circle
+        function createWWTCircle(fill, lineColor, fillColor, lineWidth, opacity, radius, skyRelative, ra, dec,ID) {
+            var circle = wwt.createCircle(fill);
+            circle.set_lineColor(lineColor);
+            circle.set_fillColor(fillColor);
+            circle.set_lineWidth(lineWidth);
+            circle.set_opacity(opacity);
+            circle.set_radius(radius);// In pixels
+            circle.set_skyRelative(skyRelative);
+            circle.setCenter(ra, dec);
+            circle.set_id(ID);
+            circle.set_showHoverLabel(true);
+            return circle;
+        }
+        
+        
+        function wwtClick(obj, eventArgs) {
+
+
+            //var circle_obj = createWWTCircle(false, "green", "", 4, 1.0, 10, false, 286.485, -27.5231666666667,"Cricle1");
+            //wwt.addAnnotation(circle_obj);
+            var ClickDec  = Math.abs(eventArgs.get_dec());
+            console.log(ClickDec);
+            
+            var UpLim =    Math.abs(DEC)   + 0.50;
+            var DownLim =    Math.abs(DEC) - 0.50;
+            
+            if (ClickDec < UpLim  &&  ClickDec > DownLim ) {
+            
+                alert("Click at RA:" + RA.toString() + ", Dec:" + DEC.toString());
+                
+            }
+
+            
+        }
+ 
+ 
+       
+
+        // The wwtReady function is called by the WWT Web Control software
+        // This function sets up the wwt object, and the initial defaults
+        function wwtReady() {
+            wwt.settings.set_showCrosshairs(false); // Hide the Crosshairs from Canvas
+            wwt.settings.set_showConstellationFigures(false); // Hide Constellation Figures from Canvas
+            wwt.settings.set_showConstellationBoundries(false); // Hide Constellation Boundaries from Canvas
+
+
+            var color = "blue";
+            
+
+            circle_obj = createWWTCircle(false, "red", "", 4, 1.0, 10, false, RA, DEC,"Cricle1");
+            wwt.addAnnotation(circle_obj);
+            console.log(Math.abs(DEC) +0.5);
+            console.log(Math.abs(DEC) -0.5);
+            console.log("\n");
+            //wwt.add_clicked(wwtClick(circle_obj));
+            
+
+
+        }
+
+        </script>
+    </head>
+    <body onload="initialize()" >
+        <!-- The body section creates a table containing the -->
+        <!-- canvas object that the WWT web client uses as the render target.-->
+    <div id="WWTCanvas" style="width:750px; height:750px; border-style: none; border-width: 0px;"></div>
+    </body>
+
+</html>
