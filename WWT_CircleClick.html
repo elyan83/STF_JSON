@@ -49,17 +49,21 @@
             //wwt.addAnnotation(circle_obj);
             var ClickDec  = Math.abs(eventArgs.get_dec());
             console.log(ClickDec);
-            
-            var UpLim =    Math.abs(DEC)   + 0.50;
-            var DownLim =    Math.abs(DEC) - 0.50;
+            var UpLim =    Math.abs(DEC)   + 1;
+            var DownLim =    Math.abs(DEC) - 1;
             
             if (ClickDec < UpLim  &&  ClickDec > DownLim ) {
             
                 alert("Click at RA:" + RA.toString() + ", Dec:" + DEC.toString());
                 
             }
-
-            
+	    if (obj == circle_obj) {
+	       console.log("helo")
+	    }
+        }
+ 
+        function circleClick(obj) {
+	       alert("helo");
         }
  
  
@@ -72,11 +76,12 @@
             wwt.settings.set_showConstellationFigures(false); // Hide Constellation Figures from Canvas
             wwt.settings.set_showConstellationBoundries(false); // Hide Constellation Boundaries from Canvas
 
-
             var color = "blue";
-            
 
             circle_obj = createWWTCircle(false, "red", "", 4, 1.0, 10, false, RA, DEC,"Cricle1");
+	    console.log(circle_obj);
+
+	    
             wwt.addAnnotation(circle_obj);
             console.log(Math.abs(DEC) +0.5);
             console.log(Math.abs(DEC) -0.5);
@@ -96,3 +101,4 @@
     </body>
 
 </html>
+
