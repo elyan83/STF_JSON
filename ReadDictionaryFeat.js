@@ -219,7 +219,6 @@ while(i < countFeat){
     ////////// Get Classification Data //////////////
     console.log("Classification Data");
 
-    
     ClassData = GetFeatVal(keyClassData,newcontent[i]);
     console.log(ClassData);
     console.log("\n");

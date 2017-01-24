@@ -163,21 +163,21 @@
         
         
         
-        function closest(x,y,z,X,Y,Z){
+        function closest(x,y,z,X,Y,Z) { 
             
             MinDist = Math.sqrt(Math.pow(X[0]-x,2)+Math.pow(Y[0]-y,2)+Math.pow(Z[0]-z,2));
-            MinDist = 1;
+            MinDist = 100;
             MinIndex = 0;
             for(i in X){
-                var CurVal = Math.sqrt(Math.pow(X[i]-x,2)+Math.pow(Y[i]-y,2)+Math.pow(Z[i]-z,2));
+                var CurVal = Math.sqrt(Math.pow(X[i]-x,2.0)+Math.pow(Y[i]-y,2.0)+Math.pow(Z[i]-z,2.0));
                 
                 if (CurVal < MinDist){
                     MinDist = CurVal;
                     MinIndex = i;
-                    
                 }
             }
-            console.log("Minimum Distance Found = "+MinDist.toString());
+            console.log("Minimum Distance Found = "+MinDist.toString()+" Index ="+MinIndex.toString());
+	console.log(X[MinIndex].toString()+" "+Y[MinIndex].toString()+" "+Z[MinIndex].toString()+" ");
             return MinIndex;
         }
         
@@ -256,9 +256,9 @@
             console.log("click ra ="+ra.toString());
             console.log("click dec ="+dec.toString());
             
-            var x = Math.cos(ra) * Math.cos(dec);
-            var y = Math.sin(ra) * Math.cos(dec);
-            var z = Math.sin(dec);
+            var x = Math.cos(ra/180*Math.PI) * Math.cos(dec/180*Math.PI);
+            var y = Math.sin(ra/180*Math.PI) * Math.cos(dec/180*Math.PI);
+            var z = Math.sin(dec/180*Math.PI);
             
             
             console.log("click x = "+x.toString());
@@ -266,12 +266,11 @@
             console.log("click z = "+z.toString());
             console.log("\n");
             
-            //var index = closest(x,y,z,X,Y,Z);
+            var index = closest(x,y,z,X,Y,Z,RA,DEC);
             
-            var index =closestSign(x,y,z,X,Y,Z,RA,DEC,ra,dec);
+            // var index =closestSign(x,y,z,X,Y,Z,RA,DEC,ra,dec);
                                 
      
-            
             console.log("Index of closest object = "+index.toString());
             console.log("RA of closest object = "+RA[index].toString());
             console.log("DEC of closest object = "+DEC[index].toString());
@@ -305,12 +304,12 @@
 
            //  Get Coordinates (Floating)
             RA, DEC = SelectCoordinates(newcontent);
-            
+
             for(i in RA){
             
-                X.push(Math.cos(RA[i]) * Math.cos(DEC[i]));
-                Y.push(Math.sin(RA[i]) * Math.cos(DEC[i]));
-                Z.push(Math.sin(DEC[i]));
+                X.push(Math.cos(RA[i]/180*Math.PI) * Math.cos(DEC[i]/180*Math.PI));
+                Y.push(Math.sin(RA[i]/180*Math.PI) * Math.cos(DEC[i]/180*Math.PI));
+                Z.push(Math.sin(DEC[i]/180*Math.PI));
               
             
             }
