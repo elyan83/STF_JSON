@@ -1,0 +1,330 @@
+<!DOCTYPE html >
+<html>
+    <head>
+        <meta charset="utf-8" content="chrome=1, IE=edge" http-equiv="X-UA-Compatible" />
+
+        <title>WWT Web Client Poly</title>
+        <script src="http://www.worldwidetelescope.org/scripts/wwtsdk.aspx"></script>
+
+
+        <script>
+            // Create the WorldWide telescope object variable
+            var wwt;
+            var datastring;
+            // Degine keys
+            var DefKey = ["Environment Root","Feature Model Instance","World Transformation","EI 3D Location"];
+            var key = new Array();
+            var countFeat = 0;
+            var newcontent = [];
+            var RA = [];
+            var DEC = [];
+            var MinDist;
+            var MinIndex;
+            
+            var X = [];
+            var Y = [];
+            var Z = [];
+
+            var circle_obj=[];
+            var ciecle1;
+
+
+        function initialize() {
+            wwt = wwtlib.WWTControl.initControl("WWTCanvas");
+            wwt.add_ready(wwtReady);
+            wwt.add_clicked(wwtClick);
+
+        }
+
+
+
+        function FileReader(pathOfFileToReadFrom)
+
+        {
+            //FileHelper.readStringFromFileAtPath = function(pathOfFileToReadFrom)
+            //{
+                var request = new XMLHttpRequest();
+                request.open("GET", pathOfFileToReadFrom, false);
+                request.send(null);
+                var returnValue = request.responseText;
+
+                return returnValue;
+            //}
+        }
+
+
+        // Read Content of a file line by line and define all the keys contained in DefKey
+        function DefineKeys(line, DefKey) {
+
+            //var key = new Array();
+
+            for(i in line) {
+                if (line[i].indexOf(DefKey[0]) > -1 || line[i].indexOf(DefKey[1]) > -1 || line[i].indexOf(DefKey[2]) > -1 || line[i].indexOf(DefKey[3]) > -1 ){
+
+                    var myString =line[i];
+                    myString = myString.replace(/\s+/,"")
+                    myString = myString.replace('"','');
+                    myString = myString.replace('": {','');
+                    key.push(myString);
+
+                    if(line[i].indexOf(DefKey[1]) > -1) {
+                        countFeat = countFeat+1; // Counts all the FeatureModelInstances
+                        }
+
+                    }
+                }
+                //return key,countFeat;
+            }
+
+
+        // Find all keys in de dictionary and return the dictionary selected.
+        function FindKeysContent(SearchKey, jsonFile) {
+
+            for(var exKey in jsonFile) {
+                if(exKey = SearchKey){
+                    var NewJson = jsonFile[exKey];
+
+                }
+            }
+
+
+            return NewJson;
+        }
+
+        // returns an array with element elem repeated n times.
+        var repeatelem = function(elem, n){
+            var arr = [];
+            for (var i=0; i< n; i++) {
+                arr = arr.concat(elem);
+            };
+            return arr;
+        };
+
+
+        //  Select all the Keys
+
+        function SelectKeys(key, countFeat,jsonContent) {
+
+            var k = 0;
+            for(i in key) {
+                if (i == 0){
+
+                    var content1 = FindKeysContent(key[i],jsonContent);
+                    newcontent = repeatelem(content1,countFeat);
+                    countFeat = 0;
+                }
+
+                if (i>0){
+
+                    if (i > k+3){
+                        countFeat = countFeat+1;
+                        k = k+3;
+
+                    }
+
+                    newcontent[countFeat] = FindKeysContent(key[i],newcontent[countFeat]);
+
+                }
+
+            }
+            return newcontent;
+        }
+
+        //  Select the coordinates
+
+        function SelectCoordinates(newcontent) {
+
+            for(i in newcontent) {
+
+                RA.push(parseFloat(FindKeysContent("coordinate__right_ascension",newcontent[i])));
+                DEC.push(parseFloat(FindKeysContent("coordinate__declination",newcontent[i])));
+
+            }
+
+            return RA, DEC
+
+        }
+
+
+        // A function to create a circle
+        function createWWTCircle(fill, lineColor, fillColor, lineWidth, opacity, radius, skyRelative, ra, dec,ID) {
+            var circle = wwt.createCircle(fill);
+            circle.set_lineColor(lineColor);
+            circle.set_fillColor(fillColor);
+            circle.set_lineWidth(lineWidth);
+            circle.set_opacity(opacity);
+            circle.set_radius(radius);
+            circle.set_skyRelative(skyRelative);
+            circle.setCenter(ra, dec);
+            circle.set_id(ID);
+            circle.set_showHoverLabel(true);
+            return circle;
+        }
+        
+        
+        
+        function closest(x,y,z,X,Y,Z){
+            
+            MinDist = Math.sqrt(Math.pow(X[0]-x,2)+Math.pow(Y[0]-y,2)+Math.pow(Z[0]-z,2));
+            MinDist = 1;
+            MinIndex = 0;
+            for(i in X){
+                var CurVal = Math.sqrt(Math.pow(X[i]-x,2)+Math.pow(Y[i]-y,2)+Math.pow(Z[i]-z,2));
+                
+                if (CurVal < MinDist){
+                    MinDist = CurVal;
+                    MinIndex = i;
+                    
+                }
+            }
+            console.log("Minimum Distance Found = "+MinDist.toString());
+            return MinIndex;
+        }
+        
+        function closestSign(x,y,z,X,Y,Z,RA,DEC,ra,dec){
+            
+            
+            MinDist = Math.sqrt(Math.pow(X[0]-x,2)+ Math.pow(Y[0]-y,2)+ Math.pow(Z[0]-z,2));
+            MinDist = 1;
+            MinIndex = 0;
+            var selectI = 0;
+            var count1 = 0;
+            var count2 = 0;
+            var count3 = 0;
+            var count4 = 0;
+            
+            
+            for(i in X){
+                
+                if(ra < 0 && dec > 0 && RA[i]<0 && DEC[i]>0){
+                    selectI = i;
+                    count1 = count1+1;
+                    
+                }
+                
+                if(ra > 0 && dec > 0 && RA[i]>0 && DEC[i]>0){
+                    selectI = i;
+                    count2 = count2+1;
+                }
+                
+                if(ra > 0 && dec < 0 && RA[i]>0 && DEC[i]<0){
+                    selectI = i;
+                    count3 = count3+1;
+                }
+                
+                if(ra < 0 && dec < 0 && RA[i]<0 && DEC[i]<0){
+                    selectI = i;
+                    count4 = count4+1;
+                }
+                
+                
+                var CurVal = Math.sqrt(Math.pow(Math.abs(X[selectI])-Math.abs(x),2)+Math.pow(Math.abs(Y[selectI])-Math.abs(y),2)+Math.pow(Math.abs(Z[selectI])-Math.abs(z),2));
+                
+                if (CurVal < MinDist){
+                    MinDist = CurVal;
+                    MinIndex = i;
+                    
+                }
+            }
+            console.log(count1);
+            console.log(count2);
+            console.log(count3);
+            console.log(count4);
+            
+            console.log("Minimum Distance Found = "+MinDist.toString());
+            return MinIndex;
+        }
+        
+        
+        
+        
+        function wwtClick(obj, eventArgs) {
+            
+
+ 
+            var circle1 = createWWTCircle(false, "yellow","", 4, 1.0, 10, false, eventArgs.get_RA(), eventArgs.get_dec());
+            wwt.addAnnotation(circle1);
+            //}
+            //if (bShowAlerts){
+            alert("Click at RA:" + eventArgs.get_RA().toString() + ", Dec:" + eventArgs.get_dec().toString());
+            
+            var ra = parseFloat(eventArgs.get_RA().toString());
+            var dec = parseFloat(eventArgs.get_dec().toString());
+            
+            
+            // Canvas Ra and Dec -> The same of the Alert
+            console.log("click ra ="+ra.toString());
+            console.log("click dec ="+dec.toString());
+            
+            var x = Math.cos(ra) * Math.cos(dec);
+            var y = Math.sin(ra) * Math.cos(dec);
+            var z = Math.sin(dec);
+            
+            
+            console.log("click x = "+x.toString());
+            console.log("click y = "+y.toString());
+            console.log("click z = "+z.toString());
+            console.log("\n");
+            
+            //var index = closest(x,y,z,X,Y,Z);
+            
+            var index =closestSign(x,y,z,X,Y,Z,RA,DEC,ra,dec);
+                                
+     
+            
+            console.log("Index of closest object = "+index.toString());
+            console.log("RA of closest object = "+RA[index].toString());
+            console.log("DEC of closest object = "+DEC[index].toString());
+            
+            var circle2 = createWWTCircle(false, "red","", 4, 1.0, 5, false, RA[index], DEC[index]);
+            wwt.addAnnotation(circle2);
+            
+            
+        }
+        
+       /* function annotationClicked(obj, eventArgs) {
+            alert("Annotation ID:" + eventArgs.get_id().toString());
+        }*/
+
+        // The wwtReady function is called by the WWT Web Control software
+        // This function sets up the wwt object, and the initial defaults
+        function wwtReady() {
+            wwt.settings.set_showCrosshairs(false); // Hide the Crosshairs from Canvas
+            wwt.settings.set_showConstellationFigures(false); // Hide Constellation Figures from Canvas
+            wwt.settings.set_showConstellationBoundries(false); // Hide Constellation Boundaries from Canvas
+
+
+            var datastring  = FileReader("./LMBX_cat.json");
+            var jsonContent = JSON.parse(datastring); // Get JSON file
+            var line = datastring.split(/\r?\n/);
+
+            DefineKeys(line, DefKey); // Get Keys
+
+            newcontent = SelectKeys(key, countFeat,jsonContent);
+
+
+           //  Get Coordinates (Floating)
+            RA, DEC = SelectCoordinates(newcontent);
+            
+            for(i in RA){
+            
+                X.push(Math.cos(RA[i]) * Math.cos(DEC[i]));
+                Y.push(Math.sin(RA[i]) * Math.cos(DEC[i]));
+                Z.push(Math.sin(DEC[i]));
+              
+            
+            }
+    
+    
+
+        }
+
+        </script>
+    </head>
+    <body onload="initialize()" >
+        <!-- The body section creates a table containing the -->
+        <!-- canvas object that the WWT web client uses as the render target.-->
+    <div id="WWTCanvas" style="width:750px; height:750px; border-style: none; border-width: 0px;"></div>
+    </body>
+
+</html>
